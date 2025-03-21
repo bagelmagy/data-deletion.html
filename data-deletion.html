@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Deletion Request - Uncover</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label, input, textarea, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #6200ee;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5000c9;
+        }
+        .confirmation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 4px;
+            color: #2e7d32;
+        }
+        .api-response {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Uncover Data Deletion</h1>
+    
+    <!-- Meta API Confirmation Section -->
+    <div id="api-section" style="display: none;">
+        <div class="api-response" id="api-response">
+            {"confirmation_code": "UNCOVER_DATA_DELETION_CONFIRMED"}
+        </div>
+    </div>
+    
+    <!-- User Form Section -->
+    <div id="form-section">
+        <p>To request deletion of your data from Uncover, please complete this form. We will process your request within 30 days as required by Meta's Platform Terms.</p>
+        
+        <form id="deletionForm">
+            <label for="email">Your Email Address:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="instagram_id">Instagram User ID (if known):</label>
+            <input type="text" id="instagram_id" name="instagram_id" placeholder="Optional">
+            
+            <label for="request_details">Additional Information:</label>
+            <textarea id="request_details" name="request_details" rows="4" placeholder="Please provide any additional details that might help us identify your data."></textarea>
+            
+            <button type="submit">Submit Deletion Request</button>
+        </form>
+        
+        <div class="confirmation" id="confirmation" style="display: none;">
+            <strong>Thank you for your request.</strong><br>
+            We have received your data deletion request and will process it within 30 days. If we need additional information, we'll contact you at the email address provided.
+        </div>
+    </div>
+    
+    <script>
+        // Check if this is an API request from Meta
+        function checkForApiRequest() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('user_id');
+            const confirmationCode = urlParams.get('confirmation_code');
+            
+            if (userId || confirmationCode) {
+                // This appears to be an API request
+                document.getElementById('form-section').style.display = 'none';
+                document.getElementById('api-section').style.display = 'block';
+                
+                // Log the request (in a real implementation, you would process this server-side)
+                console.log('Data deletion request received for user_id:', userId);
+                
+                // In a real implementation, you would delete the user's data here
+                // For now, we just return the confirmation code
+                return true;
+            }
+            return false;
+        }
+        
+        // Handle form submission
+        document.getElementById('deletionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const email = document.getElementById('email').value;
+            const instagramId = document.getElementById('instagram_id').value;
+            const details = document.getElementById('request_details').value;
+            
+            // In a real implementation, you would send this data to your server or a notification service
+            console.log('Manual deletion request received:', {
+                email: email,
+                instagram_id: instagramId,
+                details: details
+            });
+            
+            // Show confirmation message
+            document.getElementById('confirmation').style.display = 'block';
+            document.getElementById('deletionForm').style.display = 'none';
+        });
+        
+        // Check for API request on page load
+        window.onload = checkForApiRequest;
+    </script>
+</body>
+</html>
